@@ -1,38 +1,187 @@
-.App {
-  text-align: center;
+.app {
+    min-height: 100vh;
+    background-image: url('./assets/sky.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    color: #fff;
+    position: relative;
+    transition: 500ms;
+    opacity: 1;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.app::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-direction: column;
+    padding: 2em 3em 4em 3em;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.container>div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.App-link {
-  color: #61dafb;
+.city-time,
+.temp,
+.weather {
+    margin: 0 1em;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.city-time h1 {
+    margin: 0;
+    margin-bottom: 0.2em;
+    font-size: 3em;
+}
+
+.temp {
+    font-size: 7em;
+}
+
+.weather img {
+    display: block;
+    margin: 0.5em 0;
+}
+
+.panel {
+    position: absolute;
+    width: 40%;
+    height: 100%;
+    top: 0;
+    right: 0;
+    background: rgba(110, 110, 110, 0.25);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    z-index: 1;
+    padding: 3em 2em;
+    overflow-y: scroll;
+}
+
+.panel div {
+    margin-bottom: 3em;
+}
+
+.search-icon {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    padding: 1.5em;
+    margin: 0;
+    border-radius: 15px;
+    border: none;
+    outline: none;
+    background: #e6e1de;
+    cursor: pointer;
+}
+
+.search-icon span {
+
+    scale: 1.4;
+    text-align: center;
+}
+
+.search-icon:hover {
+    background: #fff !important;
+    color: #000;
+}
+
+.cityInput {
+    background: none;
+    border: none;
+    border-bottom: 1px #ccc solid;
+    width: 80%;
+    color: #fff;
+    font-size: 1.1em;
+}
+
+.cityInput:focus {
+    outline: none;
+}
+
+.cityInput::placeholder {
+    color: #ccc;
+
+}
+
+.panel ul {
+    padding: 0 0 1em 0;
+    margin: 2em 0;
+    border-bottom: 1px #ccc solid;
+
+}
+
+.panel ul li {
+    color: #ccc;
+    margin: 2.5em 0;
+}
+
+.panel ul li:hover {
+    color: #fff;
+    margin: 2.5em 0;
+}
+
+.panel ul h4 {
+    margin: 3em 0;
+}
+
+.city {
+    display: block;
+    cursor: pointer;
+}
+
+.city:hover {
+    color: #fff;
+
+}
+
+.details li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+@media screen and (max-width: 800px) {
+
+    .panel,
+    .container {
+        position: relative;
+        width: 100%;
+        top: initial;
+    }
+}
+
+@media screen and(max-width: 500px) {
+
+    html {
+        font-size: 12px;
+    }
+}
+
+@media screen and (max-height: 300px) {
+    .app {
+        min-height: 40em;
+
+    }
+
+
 }
