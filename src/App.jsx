@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import moment from 'moment';
+import ScrollReveal from 'scrollreveal';
 import './App.css';
 
 import cloud_icon from './assets/cloud.png'
@@ -15,6 +16,15 @@ function App() {
 
   const [wicon, setWicon] = useState(cloud_icon);
 
+  const weatherRef = useRef(null);
+  useEffect(() => {
+    ScrollReveal().reveal(weatherRef.current, {
+      duration: 1000,
+      distance: '20px',
+      origin: 'bottom',
+      easing: 'ease-in-out',
+    });
+  }, [weatherRef]);
 
   const search = async () => {
     const element = document.getElementsByClassName("cityInput");
@@ -129,7 +139,7 @@ function App() {
             </small>
           </div>
 
-          <div className='weather'>
+          <div ref={weatherRef} className='weather'>
             <img src={wicon} alt="" className="" width="50" height="50" />
             <span className="condition"></span>
           </div>
