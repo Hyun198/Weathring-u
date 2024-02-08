@@ -10,6 +10,15 @@
     opacity: 1;
 }
 
+.app h3 {
+    font-size: 50px;
+    position: absolute;
+    font-weight: 600;
+    left: 50px;
+    top: 50px;
+}
+
+
 .app::before {
     content: "";
     position: absolute;
@@ -20,17 +29,26 @@
     background: rgba(0, 0, 0, 0.3);
 }
 
+
 .container {
     position: absolute;
-    top: 0;
+    top: 40%;
     left: 0;
     width: 100%;
-    height: 100%;
+    height: auto;
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
     flex-direction: column;
     padding: 2em 3em 4em 3em;
+    transition: transform 0.5s ease;
+    transform: translateY(100%);
+    opacity: 0;
+}
+
+.container.show {
+    transform: translateY(0);
+    opacity: 1;
 }
 
 .container>div {
@@ -46,6 +64,7 @@
     font-size: 1.5rem;
 
 }
+
 
 
 
@@ -165,27 +184,100 @@
 }
 
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 1024px) {
+    .app h3 {
+        font-size: 2rem;
+    }
 
-    .panel,
     .container {
+        position: absolute;
+        text-align: center;
+        top: 40%;
+        left: 0;
+        width: 60%;
+        height: auto;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: flex-start;
+        font-size: 0.2rem;
+        padding: 1em 3em;
+        transition: transform 0.5s ease;
+        transform: translateY(100%);
+        opacity: 0;
+    }
+
+    .temp {
+        font-size: 2.7rem;
+    }
+
+    .condition {
+        font-size: 0.8rem;
+    }
+}
+
+@media screen and (max-width: 700px) {
+
+    .app h3 {
+        font-size: 40px;
+        position: relative;
+        font-weight: 600;
+        text-align: center;
+        top: 25%;
+    }
+
+    .container {
+        display: flex;
+        flex-direction: row;
         position: relative;
         width: 100%;
         top: initial;
+        justify-content: center;
+        text-align: center;
     }
+
+    .temp {
+        font-size: 3rem;
+    }
+
+    .condition {
+        font-size: 1rem;
+    }
+
+    .panel {
+        width: 100%;
+        position: relative;
+        margin-top: 100px;
+        display: block;
+        font-size: 1.5rem;
+    }
+
 }
 
-@media screen and(max-width: 500px) {
-
-    html {
-        font-size: 12px;
+@media screen and (max-width: 425px) {
+    .app h3 {
+        left: 10px;
     }
-}
 
-@media screen and (max-height: 300px) {
-    .app {
-        min-height: 40em;
 
+    .container {
+        display: flex;
+        flex-direction: row;
+        position: relative;
+        width: 100%;
+        top: initial;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .container h1 {
+        font-size: 2rem;
+    }
+
+    .panel {
+        width: 100%;
+        border: none;
+        padding: 1.5rem;
     }
 
 

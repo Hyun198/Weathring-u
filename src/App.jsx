@@ -15,16 +15,72 @@ import search_icon from './assets/search.png'
 function App() {
 
   const [wicon, setWicon] = useState(cloud_icon);
+  const [weatherData, setWeatherData] = useState(null);
+  const [temp, setTemp] = useState(24);
+  const [name, setName] = useState("Location");
+  const [showContainer, setShowContainer] = useState(false);
 
-  const weatherRef = useRef(null);
+
   useEffect(() => {
-    ScrollReveal().reveal(weatherRef.current, {
-      duration: 1000,
-      distance: '20px',
-      origin: 'bottom',
-      easing: 'ease-in-out',
-    });
-  }, [weatherRef]);
+    if (weatherData) {
+      const timezoneOffset = weatherData.timezone / 60;
+      const currentTime = moment().utcOffset(timezoneOffset).format("h:mm A MMM Do dddd");
+      setShowContainer(false);
+      const clouds = document.getElementsByClassName("cloud");
+      const humidity = document.getElementsByClassName("humidity");
+      const wind = document.getElementsByClassName("wind");
+      const temp = document.getElementsByClassName("temp");
+      const description = document.getElementsByClassName("condition");
+      const location = document.getElementsByClassName("name");
+      const Time = document.getElementsByClassName("time");
+
+
+      humidity[0].innerHTML = weatherData.main.humidity + " %";
+      wind[0].innerHTML = Math.floor(weatherData.wind.speed) + "km/h";
+      clouds[0].innerHTML = weatherData.clouds.all + " %";
+      temp[0].innerHTML = Math.floor(weatherData.main.temp) + "°C";
+      location[0].innerHTML = weatherData.name;
+      description[0].innerHTML = weatherData.weather[0].description;
+      Time[0].innerHTML = currentTime;
+
+
+
+      switch (weatherData.weather[0].icon) {
+        case "01d":
+        case "01n":
+          setWicon(clear_icon);
+          break;
+        case "02d":
+        case "02n":
+          setWicon(cloud_icon);
+          break;
+        case "03d":
+        case "03n":
+        case "04d":
+        case "04n":
+          setWicon(drizzle_icon);
+          break;
+        case "09d":
+        case "09n":
+        case "10d":
+        case "10n":
+          setWicon(rain_icon);
+          break;
+        case "13d":
+        case "13n":
+          setWicon(snow_icon);
+          break;
+        default:
+          setWicon(clear_icon);
+      }
+      setTimeout(() => {
+        setShowContainer(true); // 0.5초 후에 컨테이너를 다시 나타나게 하는 상태 업데이트
+      }, 300);
+
+    }
+  }, [weatherData]);
+
+
 
   const search = async () => {
     const element = document.getElementsByClassName("cityInput");
@@ -36,44 +92,8 @@ function App() {
 
     let response = await fetch(url);
     let data = await response.json();
+    setWeatherData(data);
 
-    const timezoneOffset = data.timezone / 60;
-    const currentTime = moment().utcOffset(timezoneOffset).format("h:mm A MMM Do dddd");
-
-    const clouds = document.getElementsByClassName("cloud");
-    const humidity = document.getElementsByClassName("humidity");
-    const wind = document.getElementsByClassName("wind");
-    const temp = document.getElementsByClassName("temp");
-    const description = document.getElementsByClassName("condition");
-    const location = document.getElementsByClassName("name");
-    const Time = document.getElementsByClassName("time");
-
-
-    humidity[0].innerHTML = data.main.humidity + " %";
-    wind[0].innerHTML = Math.floor(data.wind.speed) + "km/h";
-    clouds[0].innerHTML = data.clouds.all + " %";
-    temp[0].innerHTML = Math.floor(data.main.temp) + "°C";
-    location[0].innerHTML = data.name;
-    description[0].innerHTML = data.weather[0].description;
-    Time[0].innerHTML = currentTime;
-
-    if (data.weather[0].icon === "01d" || data.weather[0].icon === "01n") {
-      setWicon(clear_icon);
-    } else if (data.weather[0].icon === "02d" || data.weather[0].icon === "02n") {
-      setWicon(cloud_icon);
-    } else if (data.weather[0].icon === "03d" || data.weather[0].icon === "03n") {
-      setWicon(drizzle_icon);
-    } else if (data.weather[0].icon === "04d" || data.weather[0].icon === "04n") {
-      setWicon(drizzle_icon);
-    } else if (data.weather[0].icon === "09d" || data.weather[0].icon === "09n") {
-      setWicon(rain_icon);
-    } else if (data.weather[0].icon === "10d" || data.weather[0].icon === "10n") {
-      setWicon(rain_icon);
-    } else if (data.weather[0].icon === "13d" || data.weather[0].icon === "13n") {
-      setWicon(snow_icon);
-    } else {
-      setWicon(clear_icon);
-    }
   }
 
 
@@ -83,75 +103,40 @@ function App() {
 
     let response = await fetch(url);
     let data = await response.json();
+    setWeatherData(data);
 
-    const timezoneOffset = data.timezone / 60;
-    const currentTime = moment().utcOffset(timezoneOffset).format("h:mm A MMM Do dddd");
-
-    console.log(data);
-    console.log(currentTime);
-    const clouds = document.getElementsByClassName("cloud");
-    const humidity = document.getElementsByClassName("humidity");
-    const wind = document.getElementsByClassName("wind");
-    const temp = document.getElementsByClassName("temp");
-    const description = document.getElementsByClassName("condition");
-    const location = document.getElementsByClassName("name");
-    const Time = document.getElementsByClassName("time");
-
-
-    humidity[0].innerHTML = data.main.humidity + " %";
-    wind[0].innerHTML = Math.floor(data.wind.speed) + "km/h";
-    clouds[0].innerHTML = data.clouds.all + " %";
-    temp[0].innerHTML = Math.floor(data.main.temp) + "°C";
-    location[0].innerHTML = data.name;
-    description[0].innerHTML = data.weather[0].description;
-    Time[0].innerHTML = currentTime;
-
-    if (data.weather[0].icon === "01d" || data.weather[0].icon === "01n") {
-      setWicon(clear_icon);
-    } else if (data.weather[0].icon === "02d" || data.weather[0].icon === "02n") {
-      setWicon(cloud_icon);
-    } else if (data.weather[0].icon === "03d" || data.weather[0].icon === "03n") {
-      setWicon(drizzle_icon);
-    } else if (data.weather[0].icon === "04d" || data.weather[0].icon === "04n") {
-      setWicon(drizzle_icon);
-    } else if (data.weather[0].icon === "09d" || data.weather[0].icon === "09n") {
-      setWicon(rain_icon);
-    } else if (data.weather[0].icon === "10d" || data.weather[0].icon === "10n") {
-      setWicon(rain_icon);
-    } else if (data.weather[0].icon === "13d" || data.weather[0].icon === "13n") {
-      setWicon(snow_icon);
-    } else {
-      setWicon(clear_icon);
-    }
   }
+
 
   return (
     <div className="app">
-      <div className="container">
-        <h3 className="brand">Weathring with u</h3>
-        <div>
-          <h1 className="temp">24&#176;C</h1>
+      <h3 className="brand">Weathring with u</h3>
+      <div className={`container ${showContainer ? 'show' : ''}`}>
+
+        <div className='data-container'>
+          <h1 className="temp">{temp}&#176;C</h1>
 
           <div className="city-time">
-            <h1 className="name">Location</h1>
+            <h1 className="name">{name}</h1>
             <small>
               <span className='time'></span>
             </small>
           </div>
 
-          <div ref={weatherRef} className='weather'>
+          <div className='weather'>
             <img src={wicon} alt="" className="" width="50" height="50" />
             <span className="condition"></span>
           </div>
+
         </div>
       </div>
+
       <div className="panel">
         <div id="locationInput">
           <input type="text" className='cityInput' placeholder='Search location' />
           <div className="search-icon" onClick={() => { search() }}>
             <img src={search_icon} alt="" />
           </div>
-
         </div>
 
         <ul className="cities">
@@ -159,7 +144,6 @@ function App() {
           <li className="city" onClick={() => selectedCity("Seoul")}>Seoul</li>
           <li className="city" onClick={() => selectedCity("Tokyo")}>Tokyo</li>
           <li className="city" onClick={() => selectedCity("Moscow")}>Moscow</li>
-
         </ul>
 
         <ul className='details'>
